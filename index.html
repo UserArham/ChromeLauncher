@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ChromeCraft Launcher</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0b1020;
+  overflow: hidden;
+  color: white;
+}
+
+/* ===== BACKGROUND GLOW ===== */
+.glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(34,197,94,0.25), transparent 60%);
+  top: -200px;
+  left: -200px;
+  filter: blur(40px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.glow2 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59,130,246,0.25), transparent 60%);
+  bottom: -200px;
+  right: -200px;
+  filter: blur(40px);
+  animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(30px); }
+}
+
+/* ===== MAIN CARD ===== */
+.launcher {
+  width: 440px;
+  padding: 28px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #22c55e, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header p {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 6px;
+}
+
+/* ===== VERSION CARDS ===== */
+.versions {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: 0.25s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background: rgba(34,197,94,0.15);
+  border-color: rgba(34,197,94,0.4);
+}
+
+.version {
+  font-weight: 600;
+}
+
+.play {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 11px;
+  opacity: 0.4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+<div class="glow2"></div>
+
+<div class="launcher">
+  <div class="header">
+    <h1>ChromeLauncher</h1>
+    <p>Select a version to launch</p>
+  </div>
+
+  <div class="versions">
+
+    <div class="card" onclick="launch('1.5.0')">
+      <span class="version">Minecraft 1.5.0</span>
+      <span class="play">PLAY →</span>
+    </div>
+
+    <div class="card" onclick="launch('1.8.7')">
+      <span class="version">Minecraft 1.8.7</span>
+      <span class="play">PLAY →</span>
+    </div>
+
+    <div class="card" onclick="launch('1.12.2')">
+      <span class="version">Minecraft 1.12.2</span>
+      <span class="play">PLAY →</span>
+    </div>
+
+    <div class="card" onclick="launch('1.14.4')">
+      <span class="version">Minecraft 1.14.4</span>
+      <span class="play">PLAY →</span>
+    </div>
+
+    <div class="card" onclick="launch('1.16.5')">
+      <span class="version">Minecraft 1.16.5</span>
+      <span class="play">PLAY →</span>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    ChromeCraft Launcher • Built for speed
+  </div>
+</div>
+
+<script>
+const versions = {
+  "1.5.0": "https://chromecraft-1-5-0.vercel.app",
+  "1.8.7": "https://chromecraft-1-8-7.vercel.app",
+  "1.12.2": "https://chromecraft-1-12-2.vercel.app",
+  "1.14.4": "https://userarham.github.io/Chromecraft-1.14.4/",
+  "1.16.5": "https://userarham.github.io/Chromecraft-1.16.5/"
+};
+
+function launch(v) {
+  if (versions[v]) {
+    window.location.href = versions[v];
+  }
+}
+</script>
+
+</body>
+</html>
