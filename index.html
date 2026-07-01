@@ -1,200 +1,367 @@
-<!DOCTYPE html>
+]<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ChromeCraft Launcher</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chromecraft Launcher</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", sans-serif;
-}
-
 body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0b1020;
-  overflow: hidden;
-  color: white;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
 }
 
-/* ===== BACKGROUND GLOW ===== */
-.glow {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(34,197,94,0.25), transparent 60%);
-  top: -200px;
-  left: -200px;
-  filter: blur(40px);
-  animation: float 8s ease-in-out infinite;
+/* BASE WORLD */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("https://images5.alphacoders.com/752/thumb-1920-752070.jpg") center/cover no-repeat;
+    filter: brightness(0.65) saturate(1.7) contrast(1.25);
+    transform: scale(1.15);
+    z-index: -6;
 }
 
-.glow2 {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(59,130,246,0.25), transparent 60%);
-  bottom: -200px;
-  right: -200px;
-  filter: blur(40px);
-  animation: float 10s ease-in-out infinite;
+/* DARK DEPTH FIELD */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.10), rgba(0,0,0,0.92));
+    z-index: -5;
 }
 
-@keyframes float {
-  0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(30px); }
+/* FLOATING LIGHT ORBS (REAL FAKE REFRACTION FEEL) */
+.orbs {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(120,180,255,0.08), transparent 40%),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.06), transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(100,200,255,0.05), transparent 50%);
+    animation: drift 14s ease-in-out infinite;
+    z-index: -4;
 }
 
-/* ===== MAIN CARD ===== */
+@keyframes drift {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(-30px,20px); }
+}
+
+/* LIQUID SHEEN LAYER */
+.sheen {
+    position: fixed;
+    inset: -200%;
+    background: linear-gradient(
+        120deg,
+        transparent 46%,
+        rgba(255,255,255,0.14) 50%,
+        transparent 54%
+    );
+    animation: shine 5.5s linear infinite;
+    z-index: -3;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-50%) rotate(12deg); }
+    100% { transform: translateX(50%) rotate(12deg); }
+}
+
+/* ULTRA GLASS CORE */
 .launcher {
-  width: 440px;
-  padding: 28px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  z-index: 2;
+    width: 1000px;
+    height: 680px;
+
+    position: relative;
+    overflow: hidden;
+
+    border-radius: 36px;
+
+    background: rgba(255,255,255,0.10);
+
+    border: 1px solid rgba(255,255,255,0.20);
+
+    backdrop-filter: blur(70px) saturate(280%);
+    -webkit-backdrop-filter: blur(70px) saturate(280%);
+
+    display: flex;
+
+    box-shadow:
+        0 70px 200px rgba(0,0,0,0.95),
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        inset 0 -40px 120px rgba(255,255,255,0.06);
 }
 
-/* ===== HEADER ===== */
-.header {
-  text-align: center;
-  margin-bottom: 20px;
+/* SECOND GLASS LAYER (FAKE REFRACTION DEPTH) */
+.launcher::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(120,180,255,0.08), transparent 55%);
+    pointer-events: none;
 }
 
-.header h1 {
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, #22c55e, #60a5fa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* SIDEBAR */
+.sidebar {
+    width: 370px;
+
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.14),
+        rgba(255,255,255,0.03)
+    );
+
+    backdrop-filter: blur(60px);
+
+    border-right: 1px solid rgba(255,255,255,0.14);
+
+    padding: 14px;
+    overflow-y: auto;
 }
 
-.header p {
-  font-size: 13px;
-  opacity: 0.6;
-  margin-top: 6px;
-}
-
-/* ===== VERSION CARDS ===== */
-.versions {
-  display: grid;
-  gap: 12px;
-}
-
-.card {
-  padding: 14px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  cursor: pointer;
-  transition: 0.25s ease;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  background: rgba(34,197,94,0.15);
-  border-color: rgba(34,197,94,0.4);
-}
-
+/* ULTRA VERSION CARD */
 .version {
-  font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 14px;
+    border-radius: 20px;
+
+    cursor: pointer;
+    transition: 0.25s;
+
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
+/* REFRACTION SWEEP */
+.version::before {
+    content: "";
+    position: absolute;
+    inset: -70%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.16),
+        transparent
+    );
+    transform: translateX(-90%);
+    transition: 0.8s;
+}
+
+.version:hover::before {
+    transform: translateX(90%);
+}
+
+.version:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 35px 90px rgba(0,0,0,0.55);
+}
+
+.version.active {
+    background: rgba(120,180,255,0.50);
+    box-shadow:
+        0 0 60px rgba(120,180,255,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.version img {
+    width: 28px;
+    height: 28px;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 36px;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 26px;
+    font-weight: 600;
+
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.header img {
+    width: 32px;
+    height: 32px;
+}
+
+/* TEXT */
+.title {
+    font-size: 46px;
+    font-weight: 700;
+
+    text-shadow: 0 30px 90px rgba(0,0,0,0.85);
+}
+
+.desc {
+    margin-top: 14px;
+    line-height: 1.8;
+    opacity: 0.85;
+    max-height: 200px;
+    overflow: auto;
+}
+
+/* GOD BUTTON FINAL FORM */
 .play {
-  font-size: 12px;
-  opacity: 0.7;
+    width: 100%;
+    padding: 22px;
+
+    border-radius: 26px;
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        rgba(100,190,255,0.95),
+        rgba(20,100,255,0.85)
+    );
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow:
+        0 45px 140px rgba(0,120,255,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.55);
 }
 
-/* ===== FOOTER ===== */
-.footer {
-  text-align: center;
-  margin-top: 18px;
-  font-size: 11px;
-  opacity: 0.4;
+.play:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 60px 180px rgba(0,140,255,0.65),
+        inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.small {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="glow"></div>
-<div class="glow2"></div>
+<div class="orbs"></div>
+<div class="sheen"></div>
 
 <div class="launcher">
-  <div class="header">
-    <h1>ChromeLauncher</h1>
-    <p>Select a version to launch</p>
-  </div>
 
-  <div class="versions">
+    <div class="sidebar" id="list"></div>
 
-    <div class="card" onclick="launch('1.5.0')">
-      <span class="version">Minecraft 1.5.0</span>
-      <span class="play">PLAY →</span>
+    <div class="main">
+
+        <div>
+            <div class="header">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Google_Chrome_icon_%282011%29.png">
+                Chromecraft
+            </div>
+
+            <div class="title" id="title">Select a version</div>
+            <div class="desc" id="desc">Ultra liquid glass system active.</div>
+        </div>
+
+        <div>
+            <button class="play" onclick="play()">Play</button>
+            <div class="small" id="url"></div>
+        </div>
+
     </div>
 
-    <div class="card" onclick="launch('1.8.7')">
-      <span class="version">Minecraft 1.8.7</span>
-      <span class="play">PLAY →</span>
-    </div>
-
-    <div class="card" onclick="launch('1.12.2')">
-      <span class="version">Minecraft 1.12.2</span>
-      <span class="play">PLAY →</span>
-    </div>
-
-    <div class="card" onclick="launch('1.14.4')">
-      <span class="version">Minecraft 1.14.4</span>
-      <span class="play">PLAY →</span>
-    </div>
-
-    <div class="card" onclick="launch('1.16.5')">
-      <span class="version">Minecraft 1.16.5</span>
-      <span class="play">PLAY →</span>
-    </div>
-
-  <div class="card" onclick="launch('1.16.5')">
-      <span class="version">Minecraft 1.16.6</span>
-      <span class="play">PLAY →</span>
-    </div>
-  
-  </div>
-
-  <div class="footer">
-    ChromeCraft Launcher • Built for speed
-  </div>
 </div>
 
 <script>
-const versions = {
-  "1.5.0": "https://chromecraft-1-5-0.vercel.app",
-  "1.8.7": "https://chromecraft-1-8-7.vercel.app",
-  "1.12.2": "https://chromecraft-1-12-2.vercel.app",
-  "1.14.4": "https://userarham.github.io/Chromecraft-1.14.4/",
-  "1.16.5": "https://userarham.github.io/Chromecraft-1.16.5/"
-  "1.16.6": "https://chromecraft-1-16-6.vercel.app/"
+
+const ICON = "https://images.icon-icons.com/2699/PNG/512/minecraft_logo_icon_168974.png";
+
+const versions = [
+{ name:"Beta 1.3", url:"https://chromecraft-beta-1-3.vercel.app/", desc:"Early build of Chromecraft, often unstable though." },
+{ name:"Release 1.5.0", url:"https://chromecraft-1-5-0.vercel.app/", desc:"First release of early Chromecraft with redstone." },
+{ name:"Release 1.8.7", url:"https://chromecraft-1-8-7.vercel.app/", desc:"Stability update so browsers could read without lag." },
+{ name:"Release 1.12.2", url:"https://chromecraft-1-12-2.vercel.app/", desc:"Expansion update including some parrots!" },
+{ name:"Release 1.14.4", url:"https://userarham.github.io/Chromecraft-1.14.4/", desc:"Optimization pass, added pillagers and villager jobs." },
+{ name:"Release 1.16.5", url:"https://userarham.github.io/Chromecraft-1.16.5/", desc:"Nether update, including piglins." },
+{ name:"Release 1.16.6", url:"https://chromecraft-1-16-6.vercel.app/", desc:"Latest build of Chromecraft." }
+];
+
+let selected = 0;
+
+function render(){
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+
+    versions.forEach((v,i)=>{
+        const div = document.createElement("div");
+        div.className = "version" + (i===selected ? " active":"");
+
+        div.innerHTML = `
+            <img src="${ICON}">
+            <div>${v.name}</div>
+        `;
+
+        div.onclick = ()=>{
+            selected = i;
+            update();
+            render();
+            localStorage.setItem("chromecraft_last", i);
+        };
+
+        list.appendChild(div);
+    });
+
+    update();
+}
+
+function update(){
+    const v = versions[selected];
+    document.getElementById("title").innerText = v.name;
+    document.getElementById("desc").innerText = v.desc;
+    document.getElementById("url").innerText = v.url;
+}
+
+function play(){
+    window.location.href = versions[selected].url;
+}
+
+window.onload = ()=>{
+    const saved = localStorage.getItem("chromecraft_last");
+    if(saved !== null) selected = parseInt(saved);
+    render();
 };
 
-function launch(v) {
-  if (versions[v]) {
-    window.location.href = versions[v];
-  }
-}
 </script>
 
 </body>
